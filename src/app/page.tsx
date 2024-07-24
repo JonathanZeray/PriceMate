@@ -1,7 +1,12 @@
+import { ProductList } from '@/components/product-list';
 import { getAllProducts } from './server/queries';
 
 export default async function Home() {
   const products = await getAllProducts();
-  console.log(products);
-  return <main className=''>{products[0].productName}</main>;
+
+  return (
+    <main className=''>
+      <ProductList products={products} />
+    </main>
+  );
 }
