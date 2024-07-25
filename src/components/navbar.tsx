@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs';
+
 export const Navbar = () => {
   return (
     <nav className='w-full text-2xl font-extrabold   flex justify-around items-center'>
@@ -9,6 +11,12 @@ export const Navbar = () => {
       <h1 className='p-4 border-2 p-2 rounded-lg bg-green-800 text-white'>
         <Link href='/create-new-ad'>Create new ad</Link>
       </h1>
+      <SignedOut>
+        <SignInButton />
+      </SignedOut>
+      <SignedIn>
+        <UserButton />
+      </SignedIn>
     </nav>
   );
 };
