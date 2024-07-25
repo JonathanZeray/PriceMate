@@ -50,15 +50,47 @@ export const Form = () => {
   const { register, handleSubmit } = useForm<IFormValues>();
   const ageOptions = Array.from({ length: 11 }, (_, i) => i);
 
-  function depreciatedValue(t, V0, k) {
-    return V0 * (1 - Math.log(t + 1) / Math.log(t + k));
+  function depreciatedValue(
+    age: number,
+    initialPrice: number,
+    valueDependency: number
+  ) {
+    return (
+      initialPrice * (1 - Math.log(age + 1) / Math.log(age + valueDependency))
+    );
   }
 
-  const countSecondhandPrice = () => {};
+  const conditionDepreciationRates = (condition: string) => {
+    if (condition === 'Like New') return 5;
+    if (condition === 'Good') return 10;
+    if (condition === 'Bad') return 15;
+    if (condition === 'Very bad') return 20;
+  };
 
   const onSubmit = async (data: IFormValues) => {
-    const newItem: Product = { ...data, userId: '095', secondHandPrice: 495 };
+    const valueDependency = conditionDepreciationRates(data.condition);
 
+    console.log('valueD:', valueDependency);
+    console.log('age:', data.age);
+    console.log('condi:', data.condition);
+
+    const reducedAmount = depreciatedValue(
+      data.age,
+      data.initialPrice,
+      valueDependency!
+    );
+
+    const secondHandPrice = data.initialPrice - reducedAmount;
+    console.log('seconhand:', secondHandPrice);
+    console.log('seconhand:', reducedAmount);
+
+    const newItem: Product = {
+      ...data,
+      userId: '095',
+      secondHandPrice: Math.round(secondHandPrice),
+    };
+
+    console.log(newItem);
     postToDB(newItem);
   };
 
