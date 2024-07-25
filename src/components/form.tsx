@@ -2,8 +2,7 @@
 
 import { useForm, UseFormRegister } from "react-hook-form";
 import React from "react";
-import { db } from "@/app/server/db";
-import { products } from "@/app/server/db/schema";
+import { postToDB } from "@/app/actions";
 
 interface IFormValues {
   productName: string;
@@ -60,16 +59,7 @@ export const Form = () => {
       data.productName
     );
 
-    await db.insert(products).values({
-      productName: "Test",
-      imageUrl: "test",
-      userId: "test",
-      initialPrice: 100,
-      secondHandPrice: 50,
-      category: "test",
-      condition: "test",
-      age: 4,
-    });
+    postToDB();
   };
 
   return (
