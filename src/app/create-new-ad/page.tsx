@@ -1,3 +1,9 @@
-export default async function CreateNewAd() {
-  return <p>new ad</p>;
+import { Form } from "@/components/form";
+
+export default function CreateNewAd() {
+  return (
+    <>
+      <Form />
+    </>
+  );
 }
