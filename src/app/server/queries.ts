@@ -1,3 +1,4 @@
+import { Product } from '@/model/Product';
 import { db } from './db';
 import * as schema from './db/schema';
 import { eq } from 'drizzle-orm';
@@ -14,4 +15,8 @@ export const getProductById = async (id: number) => {
     .where(eq(schema.products.id, id));
 
   return productById[0];
+};
+
+export const addProduct = async (data: Product) => {
+  await db.insert(schema.products).values(data);
 };

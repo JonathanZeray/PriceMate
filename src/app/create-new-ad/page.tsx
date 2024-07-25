@@ -1,9 +1,5 @@
-import { Form } from "@/components/form";
+import { Form } from '@/components/form';
 
 export default function CreateNewAd() {
-  return (
-    <>
-      <Form />
-    </>
-  );
+  return <Form />;
 }
