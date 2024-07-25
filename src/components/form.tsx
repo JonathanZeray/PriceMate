@@ -70,10 +70,6 @@ export const Form = () => {
   const onSubmit = async (data: IFormValues) => {
     const valueDependency = conditionDepreciationRates(data.condition);
 
-    console.log('valueD:', valueDependency);
-    console.log('age:', data.age);
-    console.log('condi:', data.condition);
-
     const reducedAmount = depreciatedValue(
       data.age,
       data.initialPrice,
@@ -81,8 +77,6 @@ export const Form = () => {
     );
 
     const secondHandPrice = data.initialPrice - reducedAmount;
-    console.log('seconhand:', secondHandPrice);
-    console.log('seconhand:', reducedAmount);
 
     const newItem: Product = {
       ...data,
@@ -90,7 +84,6 @@ export const Form = () => {
       secondHandPrice: Math.round(secondHandPrice),
     };
 
-    console.log(newItem);
     postToDB(newItem);
   };
 
