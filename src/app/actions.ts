@@ -1,16 +1,8 @@
-"use server";
-import { db } from "./server/db";
-import * as schema from "./server/db/schema";
+'use server';
+import { Product } from '@/model/Product';
+import { db } from './server/db';
+import * as schema from './server/db/schema';
 
-export async function postToDB() {
-  await db.insert(schema.products).values({
-    productName: "Test",
-    imageUrl: "test",
-    userId: "test",
-    initialPrice: 100,
-    secondHandPrice: 50,
-    category: "test",
-    condition: "test",
-    age: 4,
-  });
+export async function postToDB(data: Product) {
+  await db.insert(schema.products).values(data);
 }

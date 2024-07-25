@@ -1,8 +1,9 @@
-"use client";
+'use client';
 
-import { useForm, UseFormRegister } from "react-hook-form";
-import React from "react";
-import { postToDB } from "@/app/actions";
+import { useForm, UseFormRegister } from 'react-hook-form';
+import React from 'react';
+import { postToDB } from '@/app/actions';
+import { Product } from '@/model/Product';
 
 interface IFormValues {
   productName: string;
@@ -19,12 +20,12 @@ const Input = React.forwardRef<
 >(({ type, ...props }, ref) => (
   <input
     type={type}
-    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+    className='flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm'
     ref={ref}
     {...props}
   />
 ));
-Input.displayName = "Input";
+Input.displayName = 'Input';
 
 const Select = React.forwardRef<
   HTMLSelectElement,
@@ -43,7 +44,7 @@ const Select = React.forwardRef<
     </select>
   </>
 ));
-Select.displayName = "Select";
+Select.displayName = 'Select';
 
 export const Form = () => {
   const { register, handleSubmit } = useForm<IFormValues>();
@@ -59,35 +60,39 @@ export const Form = () => {
       data.productName
     );
 
-    postToDB();
+    const newItem: Product = { ...data, userId: '095', secondHandPrice: 495 };
+
+    console.log(newItem);
+
+    postToDB(newItem);
   };
 
   return (
     <form
-      className="flex flex-col items-center space-y-2"
+      className='flex flex-col items-center space-y-2'
       onSubmit={handleSubmit(onSubmit)}
     >
-      <Input placeholder="Product Name" {...register("productName")} />
-      <Input placeholder="Image URL" {...register("imageUrl")} />
+      <Input placeholder='Product Name' {...register('productName')} />
+      <Input placeholder='Image URL' {...register('imageUrl')} />
       <Input
-        placeholder="Initial Price"
-        type="number"
-        {...register("initialPrice")}
+        placeholder='Initial Price'
+        type='number'
+        {...register('initialPrice')}
       />
       <Select
-        label="Category"
-        options={["Computers"]}
-        {...register("category")}
+        label='Category'
+        options={['Computers']}
+        {...register('category')}
       />
       <Select
-        label="Condition"
-        options={["Like New", "Good", "Bad", "Very Bad"]}
-        {...register("condition")}
+        label='Condition'
+        options={['Like New', 'Good', 'Bad', 'Very Bad']}
+        {...register('condition')}
       />
-      <Select label="Age in years" options={ageOptions} {...register("age")} />
+      <Select label='Age in years' options={ageOptions} {...register('age')} />
       <button
-        type="submit"
-        className="text-white bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5"
+        type='submit'
+        className='text-white bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5'
       >
         Confirm
       </button>
