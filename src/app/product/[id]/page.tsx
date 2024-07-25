@@ -16,7 +16,7 @@ export default async function ProductPage({ params: { id } }: PageProps) {
         alt={product.productName}
       />
       <h3>name: {product.productName}</h3>
-      <p> age: {product.age}</p>
+      <p> year: {2024 - product.age}</p>
       <p> condition: {product.condition}</p>
       <p> price: {product.secondHandPrice}</p>
     </div>
