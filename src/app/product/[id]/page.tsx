@@ -1,4 +1,4 @@
-import { getProductById } from '@/app/server/queries';
+import { getProductById } from '@/server/queries';
 
 interface PageProps {
   params: {

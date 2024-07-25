@@ -50,19 +50,14 @@ export const Form = () => {
   const { register, handleSubmit } = useForm<IFormValues>();
   const ageOptions = Array.from({ length: 11 }, (_, i) => i);
 
+  function depreciatedValue(t, V0, k) {
+    return V0 * (1 - Math.log(t + 1) / Math.log(t + k));
+  }
+
+  const countSecondhandPrice = () => {};
+
   const onSubmit = async (data: IFormValues) => {
-    console.log(
-      data.age,
-      data.category,
-      data.condition,
-      data.imageUrl,
-      data.initialPrice,
-      data.productName
-    );
-
     const newItem: Product = { ...data, userId: '095', secondHandPrice: 495 };
-
-    console.log(newItem);
 
     postToDB(newItem);
   };
