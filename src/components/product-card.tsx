@@ -14,10 +14,16 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           src={product.imageUrl}
           alt={product.productName}
         />
-        <div className="w-full flex  justify-around  items-center">
-          <h3>{product.productName}</h3>
-          <p> year: {2024 - product.age}</p>
-          <p> price: {product.secondHandPrice}</p>
+        <div className="w-full flex flex-col md:flex-row justify-around  items-center">
+          <h3 className="w-[100px] text-center md:text-left">
+            <b>{product.productName}</b>
+          </h3>
+          <p>
+            year: <b> {2024 - product.age}</b>
+          </p>
+          <p>
+            price: <b>{product.secondHandPrice}</b>kr
+          </p>
         </div>
       </div>
     </Link>
