@@ -1,9 +1,11 @@
 'use client';
-
 import { useForm, UseFormRegister } from 'react-hook-form';
 import React from 'react';
-import { postToDB } from '@/app/actions';
+import { getLastCreatedProduct, postToDB } from '@/app/actions';
 import { Product } from '@/model/Product';
+
+import { getAllProducts, getProductById } from '@/server/queries';
+import { useRouter } from 'next/navigation';
 
 interface IFormValues {
   productName: string;
@@ -25,6 +27,7 @@ const Input = React.forwardRef<
     {...props}
   />
 ));
+
 Input.displayName = 'Input';
 
 const Select = React.forwardRef<
@@ -46,9 +49,14 @@ const Select = React.forwardRef<
 ));
 Select.displayName = 'Select';
 
-export const Form = () => {
+interface FormProps {
+  userId: string;
+}
+export const Form = ({ userId }: FormProps) => {
   const { register, handleSubmit } = useForm<IFormValues>();
   const ageOptions = Array.from({ length: 11 }, (_, i) => i);
+
+  const router = useRouter();
 
   function depreciatedValue(
     age: number,
@@ -61,30 +69,32 @@ export const Form = () => {
   }
 
   const conditionDepreciationRates = (condition: string) => {
-    if (condition === 'Like New') return 5;
-    if (condition === 'Good') return 10;
-    if (condition === 'Bad') return 15;
-    if (condition === 'Very bad') return 20;
+    if (condition === 'Like New') return 20;
+    if (condition === 'Good') return 15;
+    if (condition === 'Bad') return 10;
+    if (condition === 'Very bad') return 5;
   };
 
   const onSubmit = async (data: IFormValues) => {
     const valueDependency = conditionDepreciationRates(data.condition);
 
-    const reducedAmount = depreciatedValue(
+    const secondHandPrice = depreciatedValue(
       data.age,
       data.initialPrice,
       valueDependency!
     );
 
-    const secondHandPrice = data.initialPrice - reducedAmount;
-
     const newItem: Product = {
       ...data,
-      userId: '095',
+      userId: userId,
       secondHandPrice: Math.round(secondHandPrice),
     };
 
-    postToDB(newItem);
+    await postToDB(newItem);
+
+    const lastCreatedProductId = await getLastCreatedProduct();
+
+    router.push(`/product/${lastCreatedProductId}`);
   };
 
   return (
